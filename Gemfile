@@ -41,6 +41,8 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'rspec-rails', '~> 3.8'
   gem 'database_cleaner'
+  gem 'factory_bot_rails', '~> 5.0', '>= 5.0.1'
+  gem 'faker', :git => 'https://github.com/stympy/faker.git', :branch => 'master'
 end
 
 group :development do

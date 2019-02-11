@@ -6,4 +6,8 @@ class User < ApplicationRecord
         
   has_many :posts
   validates_presence_of :first_name, :last_name
+
+  def full_name
+    [first_name.upcase, last_name.upcase].join(" ")
+  end
 end
