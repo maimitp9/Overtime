@@ -15,8 +15,8 @@
           <%= render "shared/nav" %>
           <%= yield %>
         </div>
+        <%= js add_gritter(flash[:notice], :sticky => false) %>    
       </div>
     </div>
-    
   </body>
 </html>
