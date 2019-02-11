@@ -25,6 +25,14 @@ describe "navigate" do
     end
   end
 
+  describe "new" do
+    it "post from homepage" do
+      visit root_path
+      click_link("new_from_nav_link")
+      expect(page.status_code).to eq(200)
+    end
+  end
+
   describe "creation" do
     before do
       visit new_post_path
@@ -69,6 +77,15 @@ describe "navigate" do
       click_on "Save"
 
       expect(page).to have_content("Edited Rational")
+    end
+  end
+
+  describe "deletion" do
+    it "has delete link" do
+      post = FactoryBot.create(:post)
+      visit posts_path
+      click_link("delete_#{post.id}")
+      expect(page.status_code).to eq(200)
     end
   end
 end
