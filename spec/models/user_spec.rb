@@ -1,25 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before do
-    @user = FactoryBot.create(:user)
-  end
-  
-  describe "creation" do
-    it "can create user" do
-      expect(@user).to be_valid
-    end
-
-    it "can't be valid without first_name, last_name" do
-      @user.first_name = nil
-      @user.last_name = nil
-      expect(@user).to_not be_valid
-    end
+  it "should be valid factory" do
+    expect(build(:user)).to be_valid
   end
 
-  describe "custome methods" do
-    it ".full_name" do
-      expect(@user.full_name).to eql("MAIMIT PATEL")
+  describe "ActiveRecord Validation" do
+    context "required fields" do
+      let(:user) { build(:user) }
+      it "can't save without first_name" do
+        user.first_name = nil
+        expect(user).to validate_presence_of(:first_name)
+      end
+      it "can't save without first_name" do
+        user.last_name = nil
+        expect(user).to validate_presence_of(:last_name)
+      end
+    end
+
+    context "format validation" do
+      let(:user) { build(:user) }
+      it "validate email formate" do
+        expect(user).to allow_value(Faker::Internet.email).for(:email)
+        expect(user).not_to allow_value("ashg22.com").for(:email) 
+      end
     end
   end
+
+  describe "ActiveRecord Accosiation" do
+    let(:user) { create(:user) }
+    let(:post) { create(:post, user: user) }
+    it { expect(user).to have_many(:posts) }
+  end
+
+  # describe "custome methods" do
+  #   it ".full_name" do
+  #     expect(user.full_name).to eql("MAIMIT PATEL")
+  #   end
+  # end
 end

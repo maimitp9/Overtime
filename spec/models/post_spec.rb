@@ -1,21 +1,26 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  describe "creation" do
-    before do
-      user = FactoryBot.create(:user)
-      login_as(user, :scope => :user)
-      @post = FactoryBot.create(:post)
-    end
+  it "has_valid_factory" do
+    expect(build(:post)).to be_valid
+  end
 
-    it "can create post" do
-      expect(@post).to  be_valid
+  describe "Activerecord Validation" do
+    context "requred fields" do
+      let(:post) { build(:post) }
+      it "can't valid without date" do
+        post.date = nil
+        expect(post).to validate_presence_of(:date)
+      end
+      it "can't valid without rational" do
+        post.rational = nil
+        expect(post).to validate_presence_of(:rational)
+      end
     end
+  end
 
-    it "can't valid without date and reational" do
-      @post.date = nil
-      @post.rational = nil
-      expect(@post).to_not be_valid
-    end
+  describe "ActiveRecord Validation" do
+    let(:post) { create(:post) }
+    it { expect(post).to belong_to(:user) }
   end
 end
