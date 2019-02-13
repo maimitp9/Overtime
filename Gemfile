@@ -63,3 +63,5 @@ gem 'devise', '~> 4.6'
 gem 'bootstrap'
 gem 'jquery-rails'
 gem "gritter", "1.2.0"
+gem "administrate"
+gem "bourbon"
