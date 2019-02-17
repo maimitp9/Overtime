@@ -33,9 +33,11 @@ RSpec.describe User, type: :model do
     it { expect(user).to have_many(:posts) }
   end
 
-  # describe "custome methods" do
-  #   it ".full_name" do
-  #     expect(user.full_name).to eql("MAIMIT PATEL")
-  #   end
-  # end
+  describe "custome methods" do
+    let(:user) { build(:user) }
+    it ".full_name" do
+      full_name = [user.first_name, user.last_name].join(' ').upcase
+      expect(user.full_name).to eql(full_name)
+    end
+  end
 end
