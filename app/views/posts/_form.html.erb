@@ -13,16 +13,8 @@
     <%= f.label :rational  %>
     <%= f.text_area :rational, class: "form-control" %>
   </div>
+  
+  <%= render partial: "status", locals: { f: f } if current_user.try(:type) == "AdminUser" %>
 
-  <div class="form-group">
-    <%= f.radio_button :status, "submited" %>
-    <%= f.label :submited  %>
-
-    <%= f.radio_button :status, "approved" %>
-    <%= f.label :approved  %>
-
-    <%= f.radio_button :status, "rejected" %>
-    <%= f.label :rejected  %>
-  </div>
   <%= f.submit "Save", class: "btn btn-primary" %>
 <% end %>
