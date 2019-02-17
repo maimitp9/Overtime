@@ -19,8 +19,33 @@ RSpec.describe Post, type: :model do
     end
   end
 
-  describe "ActiveRecord Validation" do
+  describe "ActiveRecord Accosiation" do
     let(:post) { create(:post) }
     it { expect(post).to belong_to(:user) }
+  end
+
+  describe "ActiveRecord scope" do
+    5.times do |i|
+      let!("post_#{i}".to_sym) { create(:post) }
+    end
+
+    before do
+      post_1.approved!
+      post_2.approved!
+      post_3.rejected!
+      post_4.rejected!
+    end
+
+    it "approved scope" do
+      expect(Post.approved.count).to eq 2
+    end
+
+    it "rejected scope" do
+      expect(Post.rejected.count).to eq 2
+    end
+
+    it "submitted scope" do
+      expect(Post.submitted.count).to eq 1
+    end
   end
 end

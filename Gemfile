@@ -65,3 +65,5 @@ gem 'jquery-rails'
 gem "gritter", "1.2.0"
 gem "administrate"
 gem "bourbon"
+
+gem 'simplecov', require: false, group: :test
