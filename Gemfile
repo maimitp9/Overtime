@@ -47,6 +47,7 @@ group :development, :test do
   gem 'shoulda-matchers', '4.0.0.rc1'
 end
 
+gem 'simplecov', require: false, group: :test
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'web-console', '>= 3.3.0'
@@ -65,5 +66,4 @@ gem 'jquery-rails'
 gem "gritter", "1.2.0"
 gem "administrate"
 gem "bourbon"
-
-gem 'simplecov', require: false, group: :test
+gem 'pundit', '~> 2.0', '>= 2.0.1'

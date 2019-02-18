@@ -1,22 +1,30 @@
 <div class="logo">
   <h1>Time Tracker</h1>
 </div>
-<ul class="custome-nav nav nav-tabs">
-  <li class="nav-item">
-    <%= link_to "Home", root_path, class: "nav-link #{active?(root_path)}" %>
-  </li>
-  <li class="nav-item">
-    <%= link_to "Time Entries", posts_path, class: "nav-link #{active?(posts_path)}" %>
-  </li>
-  <li class="nav-item">
-    <%= link_to "New Entry", new_post_path, id: "new_from_nav_link", class: "nav-link #{active?(new_post_path)}" %>
-  </li>
-  <li class="nav-item dropdown ml-md-auto">
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown">Action</a>
-    <div class="dropdown-menu dropdown-menu-right" >
-      <%= link_to "TODO: Admin Dashboard", root_path, class: "dropdown-item" %>
-      <div class="dropdown-divider"></div> 
-      <%= link_to "Logout", destroy_user_session_path, class: "dropdown-item", method: :delete %>
-    </div>
-  </li>
-</ul>
+<%# TODO %>
+<% if current_user %>
+  <ul class="custome-nav nav nav-tabs">
+    <li class="nav-item">
+      <%= link_to "Home", root_path, class: "nav-link #{active?(root_path)}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Time Entries", posts_path, class: "nav-link #{active?(posts_path)}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "New Entry", new_post_path, id: "new_from_nav_link", class: "nav-link #{active?(new_post_path)}" %>
+    </li>
+    <li class="nav-item dropdown ml-md-auto">
+      <a class="nav-link dropdown-toggle" data-toggle="dropdown">Options</a>
+      <div class="dropdown-menu dropdown-menu-right" >
+        <%# TODO %>
+        <% if current_user.try(:type) == 'AdminUser' %>
+          <%= link_to "Admin Dashboard", admin_root_path, class: "dropdown-item" %>
+          <div class="dropdown-divider"></div> 
+        <% end %>
+        <%# TODO %>
+        <%= link_to "Logout", destroy_user_session_path, class: "dropdown-item", method: :delete %>
+      </div>
+    </li>
+  </ul>
+<% end %>
+<%# TODO %>
