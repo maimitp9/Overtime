@@ -69,7 +69,7 @@ describe "navigate" do
       login_as(user)
 
       visit edit_post_path(post)
-      expect(page).to_not have_content(/Submitted | Approved | Rejected/)
+      expect(current_path).to eq(root_path)
     end
   end
 end

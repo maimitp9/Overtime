@@ -8,6 +8,8 @@ describe "Post Page" do
       login_as(user)
     end
     describe "index" do
+      let!(:post1) { create(:post) }
+      let!(:post2) { create(:second_post) }
       before do
         visit posts_path
       end
@@ -20,9 +22,6 @@ describe "Post Page" do
       end
 
       it "has a list of posts" do
-        post1 = FactoryBot.create(:post)
-        post2 = FactoryBot.create(:second_post)
-        visit posts_path
         expect(page).to have_content(/#{post1.rational}|#{post2.rational}/)
       end
     end
@@ -62,16 +61,15 @@ describe "Post Page" do
     end
 
     describe "Edit" do
-      before do
-        @post = FactoryBot.create(:post)
-      end
+      let!(:post) { create(:post, user: user) }
       it "reached to edit page by clicking edit link" do
         visit posts_path
-        click_link "edit_#{@post.id}"
+
+        click_link "edit_#{post.id}"
         expect(page.status_code).to eq(200)
       end
       it "it should be edited" do
-        visit edit_post_path(@post)
+        visit edit_post_path(post)
         expect(page.status_code).to eq(200)
 
         fill_in "post[date]", with: Date.today
@@ -83,8 +81,8 @@ describe "Post Page" do
     end
 
     describe "deletion" do
+      let!(:post) { create(:post) }
       it "has delete link" do
-        post = FactoryBot.create(:post)
         visit posts_path
         click_link("delete_#{post.id}")
         expect(page.status_code).to eq(200)

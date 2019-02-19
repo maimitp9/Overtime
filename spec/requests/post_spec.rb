@@ -54,7 +54,6 @@ describe "Post Page", type: :request do
 
   describe "Authenticated User" do
     let(:user) { create(:user) }
-    
     before do
       sign_in(user)
     end
@@ -78,7 +77,7 @@ describe "Post Page", type: :request do
     end
 
     context "Create" do
-      let(:post_attributes) { attributes_for(:post) }
+      let(:post_attributes) { attributes_for(:post, user: user) }
       it "create post and redirect to show" do
         post "/posts", params: { post: post_attributes }
         
@@ -90,29 +89,50 @@ describe "Post Page", type: :request do
       end
     end
 
-    context "Edit" do
-      let(:post) { create(:post) }
-      it "render edit page" do
-        get "/posts/#{post.id}/edit"
-        expect(response).to render_template(:edit)
-        expect(response.body).to include("Edit")
-        expect(response.body).to include(post.rational)
+    describe "authorize user can edit and update" do
+      let(:post) { create(:post, user: user) }
+
+      context "Edit" do
+        it "render edit page" do
+          get "/posts/#{post.id}/edit"
+          expect(response).to render_template(:edit)
+          expect(response.body).to include("Edit")
+          expect(response.body).to include(post.rational)
+        end
+      end
+
+      context "Update" do
+        let(:post_attributes) { attributes_for(:post) }
+        it "update post and redirect to show page" do
+          put "/posts/#{post.id}", params: { post: post_attributes }
+          
+          expect(response).to redirect_to(assigns(:post))
+          follow_redirect!
+
+          expect(response).to render_template(:show)
+          expect(response.body).to include("Post was updated successfully")
+        end
       end
     end
 
-    context "Update" do
+    describe "non authorize user can't edit or update" do
       let(:post) { create(:post) }
-      let(:post_attributes) { attributes_for(:post) }
-      it "update post and redirect to show page" do
-        put "/posts/#{post.id}", params: { post: post_attributes }
-        
-        expect(response).to redirect_to(assigns(:post))
-        follow_redirect!
 
-        expect(response).to render_template(:show)
-        expect(response.body).to include("Post was updated successfully")
+      context "Edit" do
+        it "can't render edit page" do
+          get "/posts/#{post.id}/edit"
+          expect(response).to redirect_to root_path
+        end
       end
-     end
+
+      context "Update" do
+        let(:post_attributes) { attributes_for(:post) }
+        it "can't update post" do
+          put "/posts/#{post.id}", params: { post: post_attributes }          
+          expect(response).to redirect_to root_path
+        end
+      end
+    end
 
     context "Show" do
       let(:post) { create(:post) }
