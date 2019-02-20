@@ -8,8 +8,7 @@ describe "Post Page" do
       login_as(user)
     end
     describe "index" do
-      let!(:post1) { create(:post) }
-      let!(:post2) { create(:second_post) }
+      let!(:post1) { create(:post, user: user) }
       before do
         visit posts_path
       end
@@ -22,7 +21,7 @@ describe "Post Page" do
       end
 
       it "has a list of posts" do
-        expect(page).to have_content(/#{post1.rational}|#{post2.rational}/)
+        expect(page).to have_content(/#{post1.rational}/)
       end
     end
 
@@ -81,7 +80,7 @@ describe "Post Page" do
     end
 
     describe "deletion" do
-      let!(:post) { create(:post) }
+      let!(:post) { create(:post, user: user) }
       it "has delete link" do
         visit posts_path
         click_link("delete_#{post.id}")

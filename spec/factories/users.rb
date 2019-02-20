@@ -14,4 +14,12 @@ FactoryBot.define do
     password { "123456" }
     password_confirmation { "123456" }
   end
+
+  factory :non_authorize_user, class: "AdminUser" do
+    first_name { "Non" }
+    last_name  { "Authorize" }
+    email { Faker::Internet.email }
+    password { "123456" }
+    password_confirmation { "123456" }
+  end
 end

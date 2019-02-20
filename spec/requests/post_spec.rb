@@ -59,11 +59,22 @@ describe "Post Page", type: :request do
     end
 
     context "Index" do
-      let(:post) { build_stubbed(:post) }
+      let(:post1) { build_stubbed(:post, user: user) }
       it "redirect to post index" do
         get "/posts"
         expect(response).to render_template(:index)
-        expect(response.body).to include("Posts")
+        expect(user.id).to eq(post1.user_id)
+      end
+
+      context "non authorized user" do
+        let(:other_user) { build_stubbed(:user) }
+        let(:post1) { build_stubbed(:post, user: other_user)}
+        it " can't see others posts" do
+          get "/posts"
+          expect(response).to render_template(:index)
+          expect(user.id).to_not eq(post1.user_id)
+          expect(response.body).to_not include(post1.rational)
+        end
       end
     end
 
