@@ -16,6 +16,14 @@ RSpec.describe Post, type: :model do
         post.rational = nil
         expect(post).to validate_presence_of(:rational)
       end
+      it 'can not valid without overtime_request' do
+        post.overtime_request = nil
+        expect(post).to validate_presence_of(:overtime_request)
+      end
+      it 'overtime_request value should be greatee then 0.0' do
+        post.overtime_request = 0.0
+        should validate_numericality_of(:overtime_request).is_greater_than(0.0)
+      end
     end
   end
 

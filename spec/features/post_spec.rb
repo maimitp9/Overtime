@@ -53,6 +53,7 @@ describe "Post Page" do
       it "will assosciated with user" do
         fill_in "post[date]", with: Date.today
         fill_in "post[rational]", with: "User Associated"
+        fill_in "post[overtime_request]", with: 2.5
         click_on "Save"
 
         expect(User.last.posts.last.rational).to eq("User Associated")
