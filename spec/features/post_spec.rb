@@ -3,12 +3,12 @@ require 'rails_helper'
 describe "Post Page" do
   describe "navigate" do
     let(:user) { create(:user) }
-      
+    let!(:post) { create(:post, user: user) }
+
     before do
       login_as(user)
     end
     describe "index" do
-      let!(:post1) { create(:post, user: user) }
       before do
         visit posts_path
       end
@@ -21,7 +21,7 @@ describe "Post Page" do
       end
 
       it "has a list of posts" do
-        expect(page).to have_content(/#{post1.rational}/)
+        expect(page).to have_content(/#{post.rational}/)
       end
     end
 
@@ -60,7 +60,6 @@ describe "Post Page" do
     end
 
     describe "Edit" do
-      let!(:post) { create(:post, user: user) }
       it "reached to edit page by clicking edit link" do
         visit posts_path
 
@@ -80,7 +79,6 @@ describe "Post Page" do
     end
 
     describe "deletion" do
-      let!(:post) { create(:post, user: user) }
       it "has delete link" do
         visit posts_path
         click_link("delete_#{post.id}")
